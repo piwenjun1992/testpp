@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>科服网tten.cn - 认定管理、统计监测、科技服务供需对接平台 </title>
+    <meta name="description" content="科服网是科技型企业认定平台、科技服务在线对接平台、科技数据统计监测平台，汇聚项目申报、补贴奖励等政府服务，支持在线淘资金、淘仪器、淘载体、淘技术尽在科淘！" />
+    <meta name="keywords" content="科服网,天津科技政策,天津众创空间,天津创新券,天津市科技型企业,科技小巨人升级版,干部帮扶" />
+
+    <link href="css_kfw_two.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="base.css">    
+    <link rel="stylesheet" type="text/css" href="about.css">
+    <script src="jquery191min.js"></script>
+    <script src="LoginCustomHelper.js"></script>
+	<link media="screen" rel="stylesheet" href="demo.css"/>
+	<script src="jquery-1.7.1.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var qcloud={};
+			$('[_t_nav]').hover(function(){
+				var _nav = $(this).attr('_t_nav');
+				clearTimeout( qcloud[ _nav + '_timer' ] );
+				qcloud[ _nav + '_timer' ] = setTimeout(function(){
+				$('[_t_nav]').each(function(){
+				$(this)[ _nav == $(this).attr('_t_nav') ? 'addClass':'removeClass' ]('nav-up-selected');
+				});
+				$('#'+_nav).stop(true,true).slideDown(200);
+			}, 150);
+		},function(){
+			var _nav = $(this).attr('_t_nav');
+			clearTimeout( qcloud[ _nav + '_timer' ] );
+			qcloud[ _nav + '_timer' ] = setTimeout(function(){
+			$('[_t_nav]').removeClass('nav-up-selected');
+			$('#'+_nav).stop(true,true).slideUp(200);
+			}, 150);
+		});
+	});
+	</script>
+	<style>
+	  select::-ms-expand { display: none; }
+	  select{
+			 appearance:none;  
+			-moz-appearance:none;  
+			-webkit-appearance:none;
+			 background: url("arrow.png") no-repeat scroll right center transparent;
+			 padding-right: 14px;
+		}
+		
+		.select-wrapper {
+          width: 70px;
+          height: 34px;
+          text-align: center;
+          margin-top: 14px;
+          margin-left: 10px;
+          
+          position: relative;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+        #select-value {
+            background: url(drop_icon.png) no-repeat center right;
+        }
+
+        .select-wrapper ul {
+            /* border: 1px solid skyblue; */
+            background: #fff;
+        }
+        
+        .select-wrapper ul,li {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .select-wrapper ul>li {
+            margin: 5px;
+        }
+
+        .select-wrapper li:hover {
+            background: #446CF7;
+            color:#fff;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("body").on("click", function () {
+                $("#select-ul").hide();
+            })
+            $("#select-value").on("click", function () {
+                $("#select-ul").show();
+                return false;
+            })
+            $("#select-ul>li").on("click", function () {
+                var value = $(this).data("value");
+                $("#select-value").text($(this).text());
+
+                var word = $(this).attr("data-defaultsearch");
+                $("#serachTxt").attr("placeholder", word);
+                $("#serachTxt").val("");
+                $("#hideSearchVal").val($(this).attr("data-value"));
+                $("#hideSearchWord").val(word);
+
+                $("#select-ul").hide();
+                return false;
+            })
+			
+			//配置导航栏样式
+           // var parentUrl = getParentUrl();
+            var parentUrl = null;
+            if (parent !== window) { 
+                try {
+                    parentUrl = parent.location.href; 
+                }catch (e) { 
+                    parentUrl = document.referrer; 
+                } 
+            }
+            
+            if (parentUrl == "http://i.tten.cn/zffw/index.html") {
+                $("#kfw_nav li").siblings().find("a").removeClass("active");
+                $("#kfw_nav li:nth-child(2) a").addClass("active");
+            }else if(parentUrl.indexOf("http://i.tten.cn/news/")>-1) {
+                $("#kfw_nav li").siblings().find("a").removeClass("active");
+                $("#kfw_nav li:nth-child(5) a").addClass("active");
+            }else if(parentUrl.indexOf("http://www.tten.cn/trs/help/")>-1) {
+                $("#kfw_nav li").siblings().find("a").removeClass("active");
+                $("#kfw_nav li:nth-child(7) a").addClass("active");
+            }
+           
+        })
+
+        //function SearchChange(){
+        //	var word = $("#selectType").find("option:selected").attr("data-defaultsearch");
+        //	$("#serachTxt").attr("placeholder",word);
+        //	$("#serachTxt").val("");
+        //}
+
+        function Search() {
+            var selectVal = $("#hideSearchVal").val();
+            var word = $("#hideSearchWord").val();
+            
+
+            var searchWord = $("#serachTxt").val() == "" ? word : $("#serachTxt").val();
+            searchWord = searchWord.trim();
+            var pattern =/^[\u4e00-\u9fa5_a-zA-Z0-9\s]+$/;
+            if(pattern.test(searchWord) && searchWord.trim() != '') {
+                var url = "http://sou.tten.cn/?keywords=" + searchWord + "&type=" + selectVal;
+                 url = encodeURI(url);
+                 window.open(url);
+            }else {
+                $("#serachTxt").val('请输入有效关键词');
+            }
+           
+        }       
+
+        /*选项卡政策。*/
+        function openBlank(action, data, n) {
+            var form = $("<form/>").attr('action', action).attr('method', 'post');
+            if (n)
+                form.attr('target', '_blank');
+            var input = '';
+            $.each(data, function (i, n) {
+                input += '<input type="hidden" name="' + i + '" value="' + n + '" />';
+            });
+            form.append(input).appendTo("body").css('display', 'none').submit();
+        }
+		
+		//获取父页面url
+		function getParentUrl() { 
+            var url = null;
+            if (parent !== window) { 
+                try {
+                url = parent.location.href; 
+                }catch (e) { 
+                url = document.referrer; 
+                } 
+            }
+            return url;
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <!--科服网头部-->
+    <div id="kfw_header">
+        <div class="kfw_login_bj">
+            <div class="kfw_login">
+                
+                <ul class="kfw_top_tr">
+				                    <li style="width: 60px;"><a id="openShop" href="http://www.tten.cn/Login.aspx" target="_blank" _t_nav="product">网站导航</a></li>
+                     <li style="width: 45px;"><img src="kfw_dl_icon5_.png"></li>
+                    <li style="width: 60px;"><a id="openShop" href="http://www.tten.cn/Login.aspx" target="_blank">免费开店</a></li>
+                     <li style="width: 45px;"><img src="kfw_dl_icon4_.png"></li>
+                    <li style="width: 60px;"><a href="https://tjxxs.qiyukf.com/client?k=8f9f8f4b085818f8048c2ab8904c5856&wp=1&gid=3753075&robotShuntSwitch=1&robotId=186973" target="_blank">在线客服</a></li>
+                    <li style="width: 45px;">
+                        <img src="kfw_dl_icon2_.png">
+                    </li>
+                    <li style="width: 60px;"><a id="userCenter" href="http://www.tten.cn/Portal/PersonCenter.aspx" target="_blank">用户中心</a></li>
+                    <li style="width: 45px;">
+                        <img src="kfw_dl_icon1_.png">
+                    </li>
+                    <li id="exitBtn" style="width: 60px;display:none;"><span style="color: #263d5d;">[</span><span id="userName"></span><a href="#" id="userExit">退出]</a></li>
+                    <li id="resiger" style="width: 35px;"><a href="http://www.tten.cn/SysManage/PersonUserRegist.aspx" target="_blank">注册</a></li>
+                     <li style="width: 45px;"><img id="resigerIcon" src="kfw_dl_icon3_.png"></li>
+                    <li id="login" style="width: 35px;"><a href="http://www.tten.cn/Login.aspx" target="_blank">登录</a></li>
+                    <li id="loginPic" style="width: 45px;">
+                        <img src="kfw_dl_icon_.png">
+                    </li>
+					
+					
+                    <!--<li id="userName"></li>-->
+                </ul>
+                <a>您好，欢迎访问科服网</a>
+            </div>
+        </div>
+
+        <div class="kfw_top_bj">
+            <div class="kfw_top">
+                <div class="kfw_logo"><a href="http://www.tten.cn/" target="_blank"><img src="kfw_logo.png" /></a></div>
+                <div class="kfw_ss">
+                    <div class="kfw_ss_one">
+                        <div id="dropdown" data-dropdown="true" style="-webkit-appearance: none;outline: none;">                         
+                            <div class="select-wrapper">
+                                <div id="select-value">全部</div>
+                                <ul id="select-ul" style="display: none;position: absolute;top:0px;line-height: 16px;width: 55px;z-index:200;background: rgb(255, 255, 255);">
+                                    <li data-defaultsearch="知识产权" data-value="all">全部</li>
+                                    <li data-defaultsearch="知识产权" data-value="policy">政策</li>
+                                    <li data-defaultsearch="知识产权" data-value="product">产品</li>
+                                    <li data-defaultsearch="知识产权" data-value="shop">店铺</li>
+                                    <li data-defaultsearch="知识产权" data-value="demand">需求</li>
+                                </ul>
+                                <input type="hidden" id="hideSearchVal" value="all" />
+                                <input type="hidden" id="hideSearchWord" value="" />
+                            </div>
+                        </div>
+                        <input id="serachTxt" class="kfw_ss_kuang" value="知识产权" style="outline:none;" type="text">
+                        <div class="kfw_ss_two">
+                            <a id="search" onclick="Search()" href="javascript:void(0);">
+                                <img src="sousuo.png" width="20" height="18" alt="" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="kfw_ss_ci">
+                        <ul>
+                            <li> <a href="http://sou.tten.cn/?keywords=%E7%A7%91%E6%8A%80%E5%9E%8B%E4%BC%81%E4%B8%9A&type=all" target="_blank">科技型企业</a></li>
+                            <li> <a href="http://sou.tten.cn/?keywords=&type=product&rzbs=cxj" target="_blank">科技创新券</a></li>
+                            <li> <a href="http://sou.tten.cn/?keywords=%E7%A7%91%E6%8A%80%E9%87%91%E8%9E%8D&type=all" target="_blank">科技金融</a></li>
+                            <li> <a href="http://sou.tten.cn/?keywords=%E5%A4%A7%E5%9E%8B%E4%BB%AA%E5%99%A8&type=all" target="_blank">大型仪器</a></li>
+                            <li> <a href="http://sou.tten.cn/?keywords=%E9%AB%98%E4%BC%81%E8%AE%A4%E5%AE%9A&type=all" target="_blank">高企认定</a></li>
+                            <li> <a href="http://sou.tten.cn/?keywords=%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83&type=all" target="_blank">知识产权</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            //设置搜索内容
+            function SetSearchTxt() {
+                $("#search").attr("href", "http://ketao.tten.cn/Product/ProductSearch.aspx?keywords=" + $("#serachTxt").val());
+            }
+
+            $("#serachTxt").on("keypress", function (e) {
+                if(e.keyCode == 13) {
+                    var selectVal = $("#hideSearchVal").val();
+                    var word = $("#hideSearchWord").val();
+                    var searchWord = $("#serachTxt").val() == "" ? word : $("#serachTxt").val();
+                    var url = "http://sou.tten.cn/?keywords=" + searchWord + "&type=" + selectVal;
+                    url = encodeURI(url);
+                    window.open(url);
+                }
+            })
+        </script>
+    </div>
+	
+	<div class="navigation-down">
+		<div id="product" class="nav-down-menu menu-1" style="display: none;" _t_nav="product">
+			<div class="navigation-down-inner">
+				<dl style="margin-left: 100px;">
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="http://i.tten.cn/zffw/index.html" target="_blank">政府服务</a></dt>
+					<dd>
+						<a href="http://www.tten.cn/trs/rdgl/index.html" target="_blank">天津科技型企业认定</a>
+					</dd>
+					<dd>
+						<a href="http://www.innofund.gov.cn/" target="_blank">国家科技型企业评价</a>
+					</dd>
+					<dd>
+						<a href="http://i.tten.cn/zffw/cxq/" target="_blank">天津科技创新券</a>
+					</dd>
+					<dd>
+						<a href="http://xmgl.kxjs.tj.gov.cn/" target="_blank">科技计划项目</a>
+					</dd>
+					<dd>
+						<a href="https://tjcxcyds.tten.cn/" target="_blank">创新创业大赛</a>
+					</dd>
+					<dd>
+						<a href="http://www.tjlab.com/" target="_blank">大型仪器共享</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/trs/nyjs/index.html" target="_blank">科技帮扶</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/trs/chuangke/chuangke/changke/index.htm" target="_blank">众创空间</a>
+					</dd>
+					<dd>
+						<a href="http://international.tten.cn/" target="_blank">国际科技合作</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/zt/dyds.html" target="_blank">大院大所</a>
+					</dd>
+					<dd>
+						<a href="http://kxjs.tj.gov.cn/zhengwugongkai/zxgz/gqrd/" target="_blank">高新企业认定</a>
+					</dd>
+					<dd>
+						<a href="http://dlkjjr.tten.cn/" target="_blank">东丽科技金融</a>
+					</dd>
+				</dl>
+				<dl>
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="http://ketao.tten.cn" target="_blank">科淘平台</a></dt>
+					<dd >
+						<a style="color:#ef7a7a;" href="http://sou.tten.cn/?keywords=&type=product" target="_blank">服务产品 ↓</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006010" target="_blank">中介咨询</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006011" target="_blank">知识产权</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006005" target="_blank">仪器设备</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006006" target="_blank">创新创业</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006014" target="_blank">财税服务</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006001" target="_blank">科技信息</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006007" target="_blank">检验检测</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006009" target="_blank">技术转移与推广</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006003" target="_blank">科技金融</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006018" target="_blank">产品研发</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006016" target="_blank">信息化服务</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006012" target="_blank">法律服务</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006015" target="_blank">创意设计与制造</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006017" target="_blank">人才与培训</a>
+					</dd>
+				
+				</dl>
+				<dl>
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="http://ketao.tten.cn" target="_blank">科淘平台</a></dt>
+					<dd>
+						<a style="color:#ef7a7a;" href="http://sou.tten.cn/?keywords=&type=shop" target="_blank">服务机构 ↓</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=cxj" target="_blank">创新券服务机构</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=dxyq" target="_blank">大型仪器共享服务机构</a>
+					</dd>
+					<dd>
+						<a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=dyds" target="_blank">大院大所</a>
+					</dd>
+
+					<dd>
+						<a style="color:#ef7a7a;">区域平台 ↓</a>
+					</dd>
+					<dd>
+						<a href="http://ketao.tten.cn/ktao2017.html" target="_blank">天津科淘</a>
+					</dd>
+					<dd>
+						<a href="http://117.146.17.132/xjkt2017.html" target="_blank">新疆科淘</a>
+					</dd>
+					<dd>
+						<a href="http://jiangsu.ketao.com.cn/" target="_blank">江苏科淘</a>
+					</dd>
+
+					<dd>
+						<a style="color:#ef7a7a;">对接服务 ↓</a>
+					</dd>
+					<dd>
+						<a href="http://ketao.tten.cn/demandmanagement/demandrelease.aspx" target="_blank">发布需求</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/RealNameAuthetic/RealNameAuthetication.aspx" target="_blank">发布产品</a>
+					</dd>
+		
+					
+				</dl>
+				<dl>
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="https://www.linkinfo.com.cn/" target="_blank">文献平台</a></dt>
+					<dd>
+						<a href="http://sc.chinaz.com/?" target="_blank">资源导航</a>
+					</dd>
+					<dd>
+						<a href="https://www.linkinfo.com.cn/resource" target="_blank">免费资源</a>
+					</dd>
+					<dd>
+						<a href="https://www.linkinfo.com.cn/freeresources" target="_blank">服务大厅</a>
+					</dd>
+					<dd>
+						<a href="https://www.linkinfo.com.cn/cms/articles/list?tag=%E5%8C%BA%E5%8E%BF%E8%A1%8C" target="_blank">活动专栏</a>
+					</dd>
+					<dd>
+						<a href="https://www.linkinfo.com.cn/?channelId=16" target="_blank">体验卡活动</a>
+					</dd>
+					<dd>
+						<a href="https://www.linkinfo.com.cn/cms/articles/details/128" target="_blank">使用帮助</a>
+					</dd>					
+				</dl>
+				<dl>
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="http://i.tten.cn/news/tzgg/" target="_blank">政策资讯</a></dt>
+					<dd>
+						<a href="http://i.tten.cn/news/tzgg/" target="_blank">通知公告</a>
+					</dd>
+					<dd>
+						<a href="http://i.tten.cn/news/gzdt/" target="_blank">工作动态</a>
+					</dd>
+					<dd>
+						<a href="http://i.tten.cn/news/gzjb/" target="_blank">工作简报</a>
+					</dd>
+					<dd>
+						<a href="http://i.tten.cn/news/kfsp/" target="_blank">科淘学院</a>
+					</dd>				
+				</dl>
+				<dl>
+					<dt><a style="color:#98c9ee;font-weight:bold;" href="http://www.tten.cn/trs/help/" target="_blank">帮助中心</a></dt>
+					<dd>
+						<a href="http://www.tten.cn/trs/help/xssl/" target="_blank">新手上路</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/trs/help/zhgl/" target="_blank">账号管理</a>
+					</dd>
+					<dd>
+						<a href="http://www.tten.cn/trs/help/qywtfzn/" target="_blank">企业指南</a>
+					</dd>
+					<dd>
+						<a style="font-size:12px" href="http://www.tten.cn/trs/help/jgfwfzn/cjdp/" target="_blank"> • 开店铺</a>
+					</dd>
+					<dd>
+						<a style="font-size:12px" href="http://www.tten.cn/trs/help/jgfwfzn/cpgl/" target="_blank"> • 发产品</a>
+					</dd>					
+					<dd>
+						<a href="http://www.tten.cn/trs/help/jgfwfzn/" target="_blank">机构指南</a>
+					</dd>
+					<dd>
+						<a style="font-size:12px" href="http://www.tten.cn/trs/help/qywtfzn/czcpfwjg/201309/t20130916_57375.html" target="_blank"> • 找服务</a>
+					</dd>
+					<dd>
+						<a style="font-size:12px" href="http://www.tten.cn/trs/help/qywtfzn/czcpfwjg/201311/t20131106_58662.html" target="_blank"> • 询机构</a>
+					</dd>
+					<dd>
+						<a style="font-size:12px" href="http://www.tten.cn/trs/help/qywtfzn/xqgl/" target="_blank"> • 发需求</a>
+					</dd>						
+					<dd>
+						<a href="http://www.tten.cn/trs/help/gywm_279/" target="_blank">关于我们</a>
+					</dd>
+					<dd>
+						<a href="http://koudaigou.net/web/formview/590bdfeae7aea969e3a4caec?ex=web" target="_blank">用户反馈</a>
+					</dd>
+					<dd>
+						<a href="https://tjxxs.qiyukf.com/client?k=8f9f8f4b085818f8048c2ab8904c5856&wp=1&gid=3753075&robotShuntSwitch=1&robotId=186973" target="_blank">在线客服</a>
+					</dd>					
+					
+				</dl>
+			</div>
+		</div>
+
+	</div>
+		
+    <div class="main">
+	<div class="wzdt">
+    <div class="wzdt-box">
+      <div class="title"><span></span><a href="http://i.tten.cn/zffw/index.html" target="_blank">政府服务</a></div>
+      <div class="wzdt-con">
+         <span class="sp1"><a href="http://www.tten.cn/trs/rdgl/index.html" target="_blank">天津科技型企业认定</a></span>
+         <span class="sp1"><a href="http://www.innofund.gov.cn/" target="_blank">国家科技型企业评价</a></span>
+         <span class="sp1" hidden=""><a href="http://i.tten.cn/zffw/cxq/" target="_blank">天津科技创新券</a></span>
+         <span class="sp1"><a href="http://xmgl.kxjs.tj.gov.cn/" target="_blank">科技计划项目</a></span>
+		 <span class="sp1"><a href="https://tjcxcyds.tten.cn/" target="_blank">创新创业大赛</a></span>
+		 <span class="sp1"><a href="http://www.tjlab.com/" target="_blank">大型仪器共享</a></span>
+		 <span class="sp1"><a href="http://www.tten.cn/trs/nyjs/index.html" target="_blank">科技帮扶</a></span>
+		 <span class="sp1"><a href="http://www.tten.cn/trs/chuangke/chuangke/changke/index.htm" target="_blank">众创空间</a></span>
+		 <span class="sp1"><a href="http://international.tten.cn/" target="_blank">国际科技合作</a></span>
+		 <span class="sp1"><a href="http://www.tten.cn/zt/dyds.html" target="_blank">大院大所</a></span>
+		 <span class="sp1"><a href="http://kxjs.tj.gov.cn/zhengwugongkai/zxgz/gqrd/" target="_blank">高新企业认定</a></span>
+		 <span class="sp1"><a href="http://dlkjjr.tten.cn/" target="_blank">东丽科技金融</a></span>
+         <div class="clear"></div>
+      </div>
+    </div>
+
+     
+     <!-- 科淘平台 -->
+     <div class="wzdt-box">
+       <div class="title"><span></span><a href="http://ketao.tten.cn" target="_blank">科淘平台</a></div>
+       <div class="wzdt-con">
+        <!-- 服务产品 -->
+         <p class="tit1"><a style="color:#2162ba;font-weight:bold;" href="http://sou.tten.cn/?keywords=&type=product" target="_blank">服务产品</a></p>
+         <p>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006010" target="_blank">中介咨询</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006011" target="_blank">知识产权</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006005" target="_blank">仪器设备</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006006" target="_blank">创新创业</a></span>
+			<span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006014" target="_blank">财税服务</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006001" target="_blank">科技信息 </a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006007" target="_blank">检验检测</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006009" target="_blank">技术转移与推广</a></span>
+			<span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006003" target="_blank">科技金融</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006018" target="_blank">产品研发</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006016" target="_blank">信息化服务</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006012" target="_blank">法律服务</a></span>
+			<span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006015" target="_blank">创意设计与制造</a></span>
+			<span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=product&fwlx=006017" target="_blank">人才与培训</a></span>
+			
+           
+          </p>
+          <div class="clear"></div>
+          <!-- 服务机构 -->
+          <p class="tit1"><a style="color:#2162ba;font-weight:bold;" href="http://sou.tten.cn/?keywords=&type=shop" target="_blank">服务机构</a></p>
+         <p>           
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=cxj" target="_blank"> 创新券服务机构</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=dxyq" target="_blank">大型仪器共享服务机构</a></span>
+            <span class="sp1"><a href="http://sou.tten.cn/?keywords=&type=shop&rzbs=dyds" target="_blank">大院大所</a></span>
+          </p>
+          <div class="clear"></div>
+     
+   
+          <div class="clear"></div>
+          <!--区域平台 -->
+          <p class="tit1" style="color:#2162ba;font-weight:bold;" >区域平台</p>
+         <p>
+		    <span class="sp1"><a href="http://ketao.tten.cn/ktao2017.html" target="_blank">天津科淘</a></span>
+            <span class="sp1"><a href="http://117.146.17.132/xjkt2017.html" target="_blank">新疆科淘</a></span>
+			<span class="sp1"><a href="http://jiangsu.ketao.com.cn/" target="_blank">江苏科淘</a></span>
+           
+             
+          </p>
+          <div class="clear"></div>
+            
+       </div>
+     </div>
+
+    <!-- 文献平台 -->
+    <div class="wzdt-box">
+        <div class="title"><span></span><a href="https://www.linkinfo.com.cn/" target="_blank">文献平台</a></div>
+        <div class="wzdt-con">
+            <p>
+                <span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/resource" target="_blank">资源导航</a></span>
+                <span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/freeresources" target="_blank">免费资源</a></span>
+                <span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/service" target="_blank">服务大厅</a></span>
+                <span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/cms/articles/list?tag=%E5%8C%BA%E5%8E%BF%E8%A1%8C" target="_blank">活动专栏 </a></span>
+				<span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/?channelId=16" target="_blank">体验卡活动</a></span>
+				<span class="sp1 sp2"><a href="https://www.linkinfo.com.cn/cms/articles/details/128" target="_blank">使用帮助</a></span>
+            </p>
+          
+           
+            <div class="clear"></div>
+        </div>
+    </div>
+	
+	 <!-- 政策资讯 -->
+    <div class="wzdt-box">
+        <div class="title"><span></span><a href="http://i.tten.cn/news/tzgg/" target="_blank">政策资讯</a></div>
+        <div class="wzdt-con">
+            <p>
+                <span class="sp1 sp2"><a href="http://i.tten.cn/news/tzgg/" target="_blank">通知公告</a></span>
+                <span class="sp1 sp2"><a href="http://i.tten.cn/news/gzdt/" target="_blank">工作动态</a></span>
+                <span class="sp1 sp2"><a href="http://i.tten.cn/news/gzjb/" target="_blank">工作简报</a></span>
+                <span class="sp1 sp2"><a href="http://i.tten.cn/news/kfsp/" target="_blank">科淘学院 </a></span>
+            </p>
+          
+           
+            <div class="clear"></div>
+        </div>
+    </div>
+	
+	<!-- 科技视窗 -->
+     <div class="wzdt-box">
+        <div class="title"><span></span><a href="http://video.tten.cn/" target="_blank">科技视窗</a></div>
+        <div class="wzdt-con">
+          <p>
+			<span class="sp1 sp2"><a href="http://video.tten.cn/tbjj/" target="_blank">特别聚焦</a></span>
+            <span class="sp1 sp2"><a href="http://video.tten.cn/cxcg/" target="_blank">创新成果</a></span>
+            <span class="sp1 sp2"><a href="http://video.tten.cn/kyys/" target="_blank">科研院所</a></span>
+            <span class="sp1 sp2"><a href="http://video.tten.cn/kjqy/" target="_blank">科技企业</a></span>    
+            <span class="sp1 sp2"><a href="http://video.tten.cn/kjrw/" target="_blank">科技人物</a></span>
+			<span class="sp1 sp2"><a href="http://video.tten.cn/kjgs/" target="_blank">科技故事</a></span>
+          </p>
+          
+        </div>
+     </div> 
+	 
+	 <!-- 活动中心 -->
+     <div class="wzdt-box">
+        <div class="title"><span></span><a href="http://video.tten.cn/" target="_blank">活动中心</a></div>
+        <div class="wzdt-con">
+          <p>
+			<span class="sp1 sp2"><a href="http://sou.tten.cn/?keywords=%E7%A7%91%E6%9C%8D%E8%AE%B2%E5%9D%9B&type=policy" target="_blank">科服讲坛</a></span>
+            <span class="sp1 sp2"><a href="http://i.tten.cn/news/tzgg/201804/t20180420_137521.htm" target="_blank">明星机构</a></span>
+            <span class="sp1 sp2"><a href="" target="_blank">点评评选</a></span>
+            <span class="sp1 sp2"><a href="" target="_blank">积分兑换</a></span>    
+          </p>
+          
+        </div>
+     </div> 
+	
+	 <!-- 帮助中心 -->
+    <div class="wzdt-box">
+        <div class="title"><span></span><a href="http://www.tten.cn/trs/help/" target="_blank">帮助中心</a></div>
+        <div class="wzdt-con">
+			<p>
+                <span class="sp1 sp3"><a href="http://www.tten.cn/trs/help/zhgl/" target="_blank">账号管理  ></a></span>
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/zhgl/zc/" target="_blank">注册账号</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/zhgl/dl/" target="_blank">用户登录</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/zhgl/smrz/" target="_blank">实名认证</a></span> 
+            </p>
+			<div class="clear"></div>
+
+			<p>
+                <span class="sp1 sp3"><a href="http://www.tten.cn/trs/help/qywtfzn/" target="_blank">企业指南  ></a></span>
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/qywtfzn/czcpfwjg/201309/t20130916_57375.html" target="_blank">找服务</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/qywtfzn/czcpfwjg/201311/t20131106_58662.html" target="_blank">询机构</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/qywtfzn/xqgl/" target="_blank">发需求</a></span> 
+				<span class="sp1"><a href="http://www.tten.cn/trs/help/qywtfzn/fwdj/" target="_blank">服务对接</a></span>
+            </p>
+			<div class="clear"></div>
+
+			<p>
+                <span class="sp1 sp3"><a href="http://www.tten.cn/trs/help/jgfwfzn/" target="_blank">机构指南  ></a></span>
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/jgfwfzn/cjdp/" target="_blank">开店铺</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/jgfwfzn/cpgl/" target="_blank">发产品</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/jgfwfzn/czxq/" target="_blank">找需求</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/jgfwfzn/ddyxgl/" target="_blank">查订单</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/jgfwfzn/zxzx/" target="_blank">答疑问</a></span> 
+            </p>
+			<div class="clear"></div>
+
+			<p>
+                <span class="sp1 sp3"><a href="http://www.tten.cn/trs/help/gywm_279/" target="_blank">关于我们  ></a></span>
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/gywm_279/201309/t20130916_60741.html" target="_blank">网站简介</a></span> 
+                <span class="sp1"><a href="http://www.tten.cn/trs/help/gywm_279/201309/t20130916_60661.html" target="_blank">联系我们</a></span> 
+				<span class="sp1"><a href="http://koudaigou.net/web/formview/590bdfeae7aea969e3a4caec;jsessionid=AE4968D6CD59F9CF1C8BB87B97A4C33F?ex=web" target="_blank">意见反馈</a></span> 
+                <span class="sp1"><a href="https://tjxxs.qiyukf.com/client?k=8f9f8f4b085818f8048c2ab8904c5856&wp=1&gid=3753075&robotShuntSwitch=1&robotId=186973" target="_blank">在线客服</a></span> 
+				<span class="sp1"><a href="http://www.tten.cn/trs/help/gywm_279/201409/t20140902_68546.html" target="_blank">用户服务协议</a></span> 
+
+            </p>
+			<div class="clear"></div>
+
+
+          
+           
+            <div class="clear"></div>
+        </div>
+    </div>
+	
+		
+  </div>
+  </div>
+
+	
+	<div class="kfw_Links">
+        <div class="kfw_links_content">
+            <div class="kfw_links_box">
+                <div class="kfw_links_div_th">友情链接</div>
+                <ul>
+                    <li><a href="http://kxjs.tj.gov.cn/" target="_blank">天津科技</a></li>
+                    <li><a href="http://www.linkinfo.com.cn/" target="_blank">天津科技文献共享服务平台</a></li>
+                </ul>
+            </div>
+            <div class="kfw_links_box">
+                <div class="kfw_links_div_th">帮助中心</div>
+                <ul>
+                    <li><a href="http://www.tten.cn/trs/help/" target="_blank">常见问题</a></li>
+                    <li><a href="http://www.tten.cn/trs/help/" target="_blank">填报指南</a></li>
+                </ul>
+            </div>
+            <div class="kfw_links_box">
+                <div class="kfw_links_div_th">关于我们</div>
+                <ul>
+                    <li><a href="http://www.tten.cn/trs/help/gywm_279/201309/t20130916_60741.html" target="_blank">科服网简介</a></li>
+                    <li><a href="http://www.tten.cn/trs/help/gywm_279/201409/t20140902_68546.html" target="_blank">用户服务协议</a></li>
+                </ul>
+            </div>
+            <div class="kfw_links_box">
+                <div class="kfw_links_div_th">咨询热线</div>
+                <ul>
+                    <li>022-23532900转821</li>
+                    <li>022-23532900转856</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--科服网底部-->
+    <div class="kfw_bottom_color">
+        <div class="kfw_bottom_font">
+            Copyright &copy; 2010-2018	 科服网. All rights reserved.<br>
+            津ICP备05001152号
+        </div>
+    </div>
+	<div style="width: 258px;height: 70px;float: right;margin: -70px 200px 0 0;">
+		<a href="http://bszs.conac.cn/sitename?method=show&amp;id=0AE08D2CD63122F2E053022819ACD565" target="_blank">
+            <div style="width: 80px;height: 80px;float: left;margin-top: -15px;background-image: url(http://dcs.conac.cn/image/blue.png)">
+                
+            </div>
+        </a>
+	</div>
+
+	
+</body>
+
+</html>
